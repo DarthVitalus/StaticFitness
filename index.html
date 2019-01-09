@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Static Fitness</title>
+<!--     <script src="static_fitness.js" defer></script> -->
+    <style>
+body {
+	font-size: 64px;
+}
+#startBtn {
+	width: 100%;
+	background-color: #4CAF50;
+}
+#menuBtns {
+	display: flex;
+}
+.btn {
+	flex: 1;
+	border: none;
+	color: white;
+	padding: 20px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	margin: 4px 2px;
+	border-radius: 6px;
+	font-size: 64px;
+}
+#stopBtn {
+	background-color: #e53232;
+}
+#pauseBtn {
+	background-color: #e5c832;
+}
+#continueBtn {
+	background-color: #4CAF50;
+}
+#current, #next, #currentExercise, #nextExercise, #timer {
+	text-align: center;
+}
+#timer {
+	font-size: 146px;
+}
+#current, #next {
+	font-size: 46px;
+	color: #6f818199
+}
+	</style>
+</head>
+<body>
+	<button id="startBtn" class="btn">Start!</button>
+	<div id="programContainer" style="display:none;">
+		<div id="menuBtns">
+			<button id="stopBtn" class="btn">Stop</button>
+			<button id="pauseBtn" class="btn">Pause</button>
+			<button id="continueBtn" class="btn" style="display:none;">Continue</button>
+		</div>
+		<div id="current">current:</div>
+		<div id="currentExercise"></div>
+		<div id="timer"></div>
+		<div id="next">next:</div>
+		<div id="nextExercise"></div>
+	</div>
+	<script>
+const startBtnEl = document.getElementById("startBtn");
+const containerEl = document.getElementById("programContainer");
+const stopBtnEl = document.getElementById("stopBtn");
+const pauseBtnEl = document.getElementById("pauseBtn");
+const continueBtnEl = document.getElementById("continueBtn");
+const currentExerciseEl = document.getElementById("currentExercise");
+const nextExerciseEl = document.getElementById("nextExercise");
+const timerEl = document.getElementById("timer");
+const fitnessProgram = [
+	{durationSec: 60, posture: "На прямых руках"},
+	{durationSec: 30, posture: "На локтях"},
+	{durationSec: 30, posture: "Правую ногу вверх"},
+	{durationSec: 30, posture: "Левую ногу вверх"},
+	{durationSec: 30, posture: "Правая боковая планка"},
+	{durationSec: 30, posture: "Левая боковая планка"},
+	{durationSec: 30, posture: "На прямых руках"},
+	{durationSec: 60, posture: "На локтях"},
+];
+let timer = null;
+let exerciseIndex = 0;
+let programTimeout = null;
+
+startBtn.onclick = () => {
+	pauseBtnEl.style.display = 'block';
+	continueBtnEl.style.display = 'none';
+	startBtn.style.display = 'none';
+	containerEl.style.display = 'block';
+	startTimer();
+};
+
+stopBtnEl.onclick = () => {
+	startBtn.style.display = 'block';
+	containerEl.style.display = 'none';
+	clearInterval(timer);
+	clearTimeout(programTimeout);
+	exerciseIndex = 0;
+};
+
+pauseBtnEl.onclick = () => {
+	pauseBtnEl.style.display = 'none';
+	continueBtnEl.style.display = 'block';
+	clearInterval(timer);
+	clearTimeout(programTimeout);
+};
+
+continueBtnEl.onclick = startBtnEl.onclick;
+
+startTimer = () => {
+	if (fitnessProgram.length <= exerciseIndex) {
+		return;
+	}
+
+	currentExercise = fitnessProgram[exerciseIndex];
+	const msg = new SpeechSynthesisUtterance(currentExercise.posture);
+	window.speechSynthesis.speak(msg);
+	const nextIndex = exerciseIndex + 1;
+	currentExerciseEl.innerHTML = currentExercise.posture;
+	nextExerciseEl.innerHTML = fitnessProgram.length > nextIndex ? fitnessProgram[nextIndex].posture : "REST!!!";
+	let counter = currentExercise.durationSec;
+	timerEl.innerHTML = counter;
+		
+	timer = setInterval(() => {
+		counter--;
+		timerEl.innerHTML = counter;
+	}, 1000);
+
+	programTimeout = setTimeout(() => {
+		clearInterval(timer);
+		++exerciseIndex;
+		if (fitnessProgram.length > nextIndex) {
+			startTimer(nextIndex);
+		} else {
+			exerciseIndex = 0;
+			clearInterval(timer);
+			clearTimeout(programTimeout);
+			const msg = new SpeechSynthesisUtterance("Закончили упражнения");
+			window.speechSynthesis.speak(msg);
+		}
+	}, currentExercise.durationSec * 1000 + 1000);
+};
+	</script>
+</body>
+</html>
