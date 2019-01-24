@@ -1,0 +1,42 @@
+
+body {
+    font-size: 64px;
+}
+#startBtn {
+    width: 100%;
+    background-color: #4CAF50;
+}
+#menuBtns {
+    display: flex;
+}
+.btn {
+    flex: 1;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    border-radius: 6px;
+    font-size: 64px;
+}
+#stopBtn {
+    background-color: #e53232;
+}
+#pauseBtn {
+    background-color: #e5c832;
+}
+#continueBtn {
+    background-color: #4CAF50;
+}
+#current, #next, #currentExercise, #nextExercise, #timer {
+    text-align: center;
+}
+#timer {
+    font-size: 146px;
+}
+#current, #next {
+    font-size: 46px;
+    color: #6f818199
+}
