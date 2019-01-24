@@ -13,14 +13,14 @@ const currentExerciseEl = document.getElementById("currentExercise");
 const nextExerciseEl = document.getElementById("nextExercise");
 const timerEl = document.getElementById("timer");
 const fitnessProgram = [
-    {durationSec: 5, posture: "На прямых руках"},
-    {durationSec: 5, posture: "На локтях"},
-    {durationSec: 5, posture: "Правую ногу вверх"},
-    {durationSec: 5, posture: "Левую ногу вверх"},
-    {durationSec: 5, posture: "Правая боковая планка"},
-    {durationSec: 5, posture: "Левая боковая планка"},
-    {durationSec: 5, posture: "На прямых руках"},
-    {durationSec: 5, posture: "На локтях"},
+    {durationSec: 60, posture: "На прямых руках"},
+    {durationSec: 30, posture: "На локтях"},
+    {durationSec: 30, posture: "Правую ногу вверх"},
+    {durationSec: 30, posture: "Левую ногу вверх"},
+    {durationSec: 30, posture: "Правая боковая планка"},
+    {durationSec: 30, posture: "Левая боковая планка"},
+    {durationSec: 30, posture: "На прямых руках"},
+    {durationSec: 60, posture: "На локтях"},
 ];
 const video = document.createElement('video');
 let exerciseTimer = null;
